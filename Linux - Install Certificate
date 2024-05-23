@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Caminho do certificado
+CAMINHO_CERTIFICADO="/tmp/ZscalerRoot0.crt"
+
+# Itera sobre os diretórios de home e aplica as ações para cada usuário
+for USUARIO_ATIVO in /home/*; do
+    # Certifica-se de que o caminho é um diretório válido
+    if [ -d "$USUARIO_ATIVO" ]; then
+        # Obtém o nome do usuário a partir do caminho
+        NOME_USUARIO=$(basename "$USUARIO_ATIVO")
+
+        echo "Aplicando para o usuário: $NOME_USUARIO"
+
+        # Importa o certificado usando certutil
+        certutil -d sql:"$USUARIO_ATIVO/.pki/nssdb" -A -t "C,," -n "CERTIFICATE" -i "$CAMINHO_CERTIFICADO"
+    fi
+done

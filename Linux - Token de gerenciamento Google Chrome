@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Diretório de origem do arquivo
+arquivo_origem="/tmp/CloudManagementEnrollmentToken"
+
+# Diretório de destino do arquivo
+diretorio_destino="/etc/opt/chrome/policies/enrollment/"
+
+# Verifica se o arquivo de origem existe
+if [ ! -f "$arquivo_origem" ]; then
+  echo "Erro: arquivo de origem '$arquivo_origem' não encontrado."
+  exit 1
+fi
+
+# Verifica se o diretório de destino existe
+if [ ! -d "$diretorio_destino" ]; then
+  echo "Erro: diretório de destino '$diretorio_destino' não encontrado."
+  exit 1
+fi
+
+# Move o arquivo para o diretório de destino
+mv "$arquivo_origem" "$diretorio_destino"
+
+# Verifica se o arquivo foi movido com sucesso
+if [ $? -ne 0 ]; then
+  echo "Erro: falha ao mover o arquivo '$arquivo_origem' para '$diretorio_destino'."
+  exit 1
+fi
+
+# Informa que o arquivo foi movido com sucesso
+echo "Arquivo '$arquivo_origem' movido para '$diretorio_destino' com sucesso."
+
+exit 0

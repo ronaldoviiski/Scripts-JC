@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Instala a depenadência dbus-x11 https://packages.ubuntu.com/jammy/dbus-x11
+sudo apt-get -y install dbus-x11
+
+# Caminho para a Imagem
+wallpaper_path="/usr/share/backgrounds/BG-Mac.png"
+
+# Pega o ID do usuário logado na interface
+user_id=$(pgrep -o -u "$(who | awk 'NR==1 {print $1}')" gnome-session | xargs -I{} grep -z DBUS_SESSION_BUS_ADDRESS /proc/{}/environ | cut -d= -f2- | tr -d '\0')
+
+# Define o papel de parede
+sudo -u $(who | awk 'NR==1 {print $1}') DISPLAY=:1 DBUS_SESSION_BUS_ADDRESS=$user_id dconf write /org/gnome/desktop/background/picture-uri "'file://$wallpaper_path'"
